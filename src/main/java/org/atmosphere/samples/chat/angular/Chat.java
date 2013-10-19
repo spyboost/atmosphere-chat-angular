@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  * Simple annotated class that demonstrate the power of Atmosphere. This class supports all transports, support
- * message length garantee, heart beat, message cache thanks to the @ManagedService.
+ * message length guarantee, heart beat, message cache thanks to the @ManagedService.
  */
 @ManagedService(path = "/chat")
 public final class Chat{
