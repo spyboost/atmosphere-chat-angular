@@ -59,8 +59,6 @@ function ChatController($scope, atmosphereService){
     }catch(e){
       console.error("Error parsing JSON: ", responseText);
       throw e;
-    }finally{
-      $scope.model.inputEnabled = true;
     }
   };
 
