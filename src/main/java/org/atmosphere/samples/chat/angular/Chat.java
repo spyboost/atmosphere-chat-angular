@@ -2,6 +2,7 @@ package org.atmosphere.samples.chat.angular;
 
 import org.atmosphere.config.service.Disconnect;
 import org.atmosphere.config.service.ManagedService;
+import org.atmosphere.config.service.Message;
 import org.atmosphere.config.service.Ready;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.AtmosphereResourceEvent;
@@ -45,12 +46,12 @@ public final class Chat{
      * Simple annotated class that demonstrate how {@link org.atmosphere.config.managed.Encoder} and {@link org.atmosphere.config.managed.Decoder
      * can be used.
      *
-     * @param message an instance of {@link Message}
-     * @return
+     * @param message an instance of {@link ChatMessage }
+     * @return the chat message
      * @throws IOException
      */
-    @org.atmosphere.config.service.Message(encoders = {MessageEncoderDecoder.class}, decoders = {MessageEncoderDecoder.class})
-    public final Message onMessage(final Message message) throws IOException{
+    @Message(encoders = {ChatMessageEncoderDecoder.class}, decoders = {ChatMessageEncoderDecoder.class})
+    public final ChatMessage onMessage(final ChatMessage message) throws IOException{
         logger.info("{} just send {}", message.getAuthor(), message.getMessage());
         return message;
     }

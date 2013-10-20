@@ -2,17 +2,16 @@ package org.atmosphere.samples.chat.angular;
 
 import java.util.Date;
 
-public final class Message{
-
+public final class ChatMessage{
     private String message;
     private String author;
     private long time;
 
-    public Message(){
+    public ChatMessage(){
         this("", "");
     }
 
-    public Message(String author, String message){
+    public ChatMessage(String author, String message){
         this.author = author;
         this.message = message;
         this.time = new Date().getTime();

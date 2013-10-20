@@ -2,14 +2,13 @@ angular.module('angular.atmosphere.chat', ['angular.atmosphere']);
 
 function MainController($scope, atmosphereService){
   $scope.model = {
-    status: 'Connecting...',
     transport: 'websocket',
     messages: []
   };
 
   var request = {
-    url: location.origin + '/' + 'chat',
-    contentType : "application/json",
+    url: '/chat',
+    contentType : 'application/json',
     logLevel : 'debug',
     transport : 'websocket',
     trackMessageLength : true,
@@ -21,7 +20,6 @@ function MainController($scope, atmosphereService){
   var subSocket;
 
   request.onOpen = function(response) {
-    $scope.model.status = 'Choose name:';
     $scope.model.transport = response.transport;
     $scope.model.connected = true;
     $scope.model.content = 'Atmosphere connected using ' + response.transport;
@@ -53,14 +51,14 @@ function MainController($scope, atmosphereService){
     try {
       var json = atmosphere.util.parseJSON(message);
     } catch (e) {
-      console.error('This doesn\'t look like a valid JSON: ', message);
+      console.error("Error parsing JSON: ", message);
       throw e;
     }
 
     if (!$scope.model.logged && $scope.model.name) {
       $scope.model.logged = true;
     } else {
-      var date = typeof(json.time) == 'string' ? parseInt(json.time) : json.time;
+      var date = typeof(json.time) === 'string' ? parseInt(json.time) : json.time;
       addMessage(json.author, json.message, new Date(date));
     }
     $scope.model.inputEnabled = true;
@@ -77,12 +75,12 @@ function MainController($scope, atmosphereService){
   };
 
   request.onError = function(response) {
-    $scope.model.content = 'Sorry, but there\'s some problem with your socket or the server is down';
+    $scope.model.content = "Sorry, but there's some problem with your socket or the server is down";
     $scope.model.logged = false;
   };
 
   request.onReconnect = function(request, response) {
-    $scope.model.content = 'Connection lost, trying to reconnect. Trying to reconnect ' + request.reconnectInterval;
+    $scope.model.content = 'Connection lost. Trying to reconnect ' + request.reconnectInterval;
     $scope.model.connected = false;
   };
 
@@ -91,10 +89,9 @@ function MainController($scope, atmosphereService){
   var input = $('#input');
   input.keydown(function(event) {
     var me = this;
-    if (event.keyCode === 13) {
+    var msg = $(me).val();
+    if(msg && msg.length > 0 && event.keyCode === 13) {
       $scope.$apply(function(){
-        var msg = $(me).val();
-
         // First message is always the author's name
         if (!$scope.model.name)
           $scope.model.name = msg;
