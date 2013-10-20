@@ -94,8 +94,6 @@ function ChatController($scope, atmosphereService){
 
         socket.push(atmosphere.util.stringifyJSON({author: $scope.model.name, message: msg}));
         $(me).val('');
-
-        $scope.model.inputEnabled = false;
       });
     }
   });
