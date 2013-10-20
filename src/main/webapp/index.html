@@ -43,7 +43,7 @@
   <form role="form" class="form-horizontal">
     <div class="form-group">
       <div class="col-lg-9">
-        <input type="text" class="form-control" id="input" data-ng-disabled="{{model.connected && model.inputEnabled}}" x-webkit-speech/>
+        <input type="text" class="form-control" id="input" data-ng-disabled="!model.connected" x-webkit-speech/>
       </div>
     </div>
   </form>
