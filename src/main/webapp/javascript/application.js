@@ -6,6 +6,8 @@ function ChatController($scope, atmosphereService){
     messages: []
   };
 
+  var socket;
+
   var request = {
     url: '/chat',
     contentType: 'application/json',
@@ -16,8 +18,6 @@ function ChatController($scope, atmosphereService){
     enableXDR: true,
     timeout: 60000
   };
-
-  var socket;
 
   request.onOpen = function(response){
     $scope.model.transport = response.transport;
