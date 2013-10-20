@@ -1,6 +1,6 @@
 angular.module('angular.atmosphere.chat', ['angular.atmosphere']);
 
-function MainController($scope, atmosphereService){
+function ChatController($scope, atmosphereService){
   $scope.model = {
     transport: 'websocket',
     messages: []
