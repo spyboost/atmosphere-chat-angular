@@ -17,7 +17,7 @@ function ChatController($scope, atmosphereService){
     timeout : 60000
   };
 
-  var subSocket;
+  var socket;
 
   request.onOpen = function(response) {
     $scope.model.transport = response.transport;
@@ -28,9 +28,9 @@ function ChatController($scope, atmosphereService){
   request.onClientTimeout = function(response) {
     $scope.model.content = 'Client closed the connection after a timeout. Reconnecting in ' + request.reconnectInterval;
     $scope.model.connected = false;
-    subSocket.push(atmosphere.util.stringifyJSON({ author: author, message: 'is inactive and closed the connection. Will reconnect in ' + request.reconnectInterval }));
+    socket.push(atmosphere.util.stringifyJSON({ author: author, message: 'is inactive and closed the connection. Will reconnect in ' + request.reconnectInterval }));
     setTimeout(function(){
-      subSocket = atmosphereService.subscribe(request);
+      socket = atmosphereService.subscribe(request);
     }, request.reconnectInterval);
   };
 
@@ -71,7 +71,7 @@ function ChatController($scope, atmosphereService){
   request.onClose = function(response) {
     $scope.model.connected = false;
     $scope.model.content = 'Server closed the connection after a timeout';
-    subSocket.push(atmosphere.util.stringifyJSON({ author: $scope.model.name, message: 'disconnecting' }));
+    socket.push(atmosphere.util.stringifyJSON({ author: $scope.model.name, message: 'disconnecting' }));
   };
 
   request.onError = function(response) {
@@ -84,7 +84,7 @@ function ChatController($scope, atmosphereService){
     $scope.model.connected = false;
   };
 
-  subSocket = atmosphereService.subscribe(request);
+  socket = atmosphereService.subscribe(request);
 
   var input = $('#input');
   input.keydown(function(event) {
@@ -96,7 +96,7 @@ function ChatController($scope, atmosphereService){
         if (!$scope.model.name)
           $scope.model.name = msg;
 
-        subSocket.push(atmosphere.util.stringifyJSON({author: $scope.model.name, message: msg}));
+        socket.push(atmosphere.util.stringifyJSON({author: $scope.model.name, message: msg}));
         $(me).val('');
 
         $scope.model.inputEnabled = false;
