@@ -20,7 +20,7 @@ public final class Chat{
     private static final Logger logger = LoggerFactory.getLogger(Chat.class);
 
     /**
-     * Invoked when the connection as been fully established and suspended, e.g ready for receiving messages.
+     * Invoked when the connection has been fully established and suspended, e.g ready for receiving messages.
      *
      * @param r the atmosphere resource
      */
@@ -43,8 +43,7 @@ public final class Chat{
     }
 
     /**
-     * Simple annotated class that demonstrate how {@link org.atmosphere.config.managed.Encoder} and {@link org.atmosphere.config.managed.Decoder
-     * can be used.
+     * Invoked when a message was received
      *
      * @param message an instance of {@link ChatMessage }
      * @return the chat message
