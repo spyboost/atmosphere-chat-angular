@@ -8,26 +8,34 @@
   <link rel="stylesheet" href="css/chat.css" />
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src="javascript/atmosphere.service.js"></script>
   <script src="javascript/atmosphere.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-  <script src="//spyboost.github.io/angular-atmosphere/service/angular-atmosphere-service.js"></script>
-  <script src="javascript/application.js"></script>
+  <script src="javascript/enter.directive.js"></script>
+  <script src="javascript/chat.controller.js"></script>
 </head>
-<body data-ng-app="angular.atmosphere.chat" data-ng-controller="ChatController">
+<body data-ng-app="angular.atmosphere.chat" data-ng-controller="ChatController as vm">
 <div id="header">
-  <h3 data-ng-bind="model.header" data-ng-init="model.header='Atmosphere Chat. Default transport is WebSocket, fallback is long-polling'"></h3>
+  <h3 data-ng-bind="vm.model.header" data-ng-init="vm.model.header='Atmosphere Chat. Default transport is WebSocket, fallback is long-polling'"></h3>
 </div>
-<p data-ng-show="!model.connected">Connecting...</p>
-<p>{{model.content}}</p>
+<p data-ng-show="!vm.model.connected">Connecting...</p>
+<p>{{vm.model.content}}</p>
+
 <div class="container">
-  <div class="row">
+    <div class="row">
+        <input type="text" data-ng-model="vm.request.url" size="100"/>
+        <input type="button" data-ng-show="!vm.model.subscribed" data-ng-click="vm.subscribe()" value="subscribe"/>
+    </div>
+    <br />
+
+    <div class="row">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Chat room</h3>
       </div>
       <div class="panel-body">
         <div class="messages">
-          <p data-ng-repeat="message in model.messages">
+          <p data-ng-repeat="message in vm.model.messages">
             <span class="time">{{message.date | date:'shortDate'}} {{message.date|date:'shortTime'}}</span>
             <span class="author">{{message.author}}</span> :
             <span class="text">{{message.text}}</span>
@@ -36,14 +44,16 @@
       </div>
     </div>
   </div>
-  <span data-ng-show="!model.name">Enter your name:</span>
-  <div data-ng-show="model.logged">
-    <span><b>{{model.name}}</b> says:</span>
+  <span data-ng-show="!vm.model.name">Enter your name:</span>
+  <div data-ng-show="vm.model.logged">
+    <span><b>{{vm.model.name}}</b> says:</span>
   </div>
   <form role="form" class="form-horizontal">
     <div class="form-group">
       <div class="col-lg-9">
-        <input type="text" class="form-control" id="input" data-ng-disabled="!model.connected" x-webkit-speech/>
+        <input type="text" atm-enter="vm.submit()" class="form-control" id="input" data-ng-model="vm.model.message"
+               data-ng-disabled="!vm.model.connected" x-webkit-speech/>
+        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
       </div>
     </div>
   </form>
